@@ -1,0 +1,1 @@
+INSERT INTO `massbeva_orders`.`fishbowl_imported` (`id`, `orderid`, `sonum`) VALUES (NULL, {0}, '{1}');

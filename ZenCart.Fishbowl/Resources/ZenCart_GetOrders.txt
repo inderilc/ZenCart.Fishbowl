@@ -1,0 +1,3 @@
+select orders.* from orders
+left join fishbowl_imported on orders.orders_id = fishbowl_imported.orderid
+where fishbowl_imported.orderid is null 
