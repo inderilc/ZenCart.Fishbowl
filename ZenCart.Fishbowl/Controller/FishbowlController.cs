@@ -102,7 +102,17 @@ namespace ZenCart.Fishbowl.Controller
         {
             return db.Query<String>(SQL.FB.FindCustomerByEmail, new { eml = email }).SingleOrDefault();
         }
-       
+        public List<ZCFBOrder> MapCustomerID(List<ZCFBOrder> orders)
+        {
+            var ret = new List<ZCFBOrder>();
+            foreach (var o in orders)
+            {
+                string id = db.Query<string>((String.Format("select ID from customer where name = '{0}'", o.CustomerName))).FirstOrDefault();
+                o.CustomerID = id;
+                ret.Add(o);
+            }
+            return ret;
+        }
 
         public bool CustomerExists(object customerName)
         {

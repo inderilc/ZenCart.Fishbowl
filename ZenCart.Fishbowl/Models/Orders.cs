@@ -83,6 +83,7 @@ namespace ZenCart.Fishbowl.Models
     public class ZCFBOrder
     {
         public String CustomerName { get; set; }
+        public String CustomerID { get; set; }
         public ZCOrder Order { get; set; }
         public FishbowlSDK.SalesOrder FbOrder { get; set; }
     }

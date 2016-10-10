@@ -7,6 +7,7 @@ using FishbowlSDK;
 using ZenCart.Fishbowl.Configuration;
 using ZenCart.Fishbowl.Models;
 using ZenCart.Fishbowl.Extensions;
+using System.Globalization;
 
 namespace ZenCart.Fishbowl.Map
 {
@@ -17,12 +18,25 @@ namespace ZenCart.Fishbowl.Map
             SalesOrder salesOrder = new SalesOrder();
 
             var o = ord.Order;
-
+            
             salesOrder.CustomerName = ord.CustomerName; //done
+            salesOrder.CustomerContact = salesOrder.CustomerName;
             salesOrder.CustomerPO = o.orders_id.ToString(); //done
-        
+            salesOrder.CustomerID = ord.CustomerID;
+
             salesOrder.TotalIncludesTax = true;
             salesOrder.TotalIncludesTaxSpecified = false;
+            
+            if (!String.IsNullOrEmpty(o.date_purchased))
+            {
+                salesOrder.CreatedDateSpecified = true;
+                salesOrder.CreatedDate = DateTime.ParseExact(o.date_purchased.ToString(), "yyyy-MM-dd HH:mm:ss", new CultureInfo("en-US"));
+            }
+            if (!String.IsNullOrEmpty(o.last_modified))
+            {
+                salesOrder.DateLastModifiedSpecified = true;
+                salesOrder.DateLastModified = DateTime.ParseExact(o.last_modified.ToString(), "yyyy-MM-dd HH:mm:ss", new CultureInfo("en-US"));
+            }
 
             salesOrder.Items = MapItems(ord.Order.Items).ToList();
 
@@ -57,15 +71,6 @@ namespace ZenCart.Fishbowl.Map
             public String paypal_ipn_id { get; set; }
             public String ip_address { get; set; }
 
-            public String delivery_name { get; set; }
-            public String delivery_company { get; set; }
-            public String delivery_street_address { get; set; }
-            public String delivery_suburb { get; set; }
-            public String delivery_city { get; set; }
-            public String delivery_postcode { get; set; }
-            public String delivery_state { get; set; }
-            public String delivery_country { get; set; }
-            public String delivery_address_format_id { get; set; } 
            */
 
             salesOrder.Status = o.orders_status;
@@ -132,6 +137,7 @@ namespace ZenCart.Fishbowl.Map
                 ItemType = "10",
                 Status = "10",
                 ProductPriceSpecified = true,
+                TotalPriceSpecified=true,
                 Taxable = false,
                 TaxRateSpecified = false,
                 UOMCode = "ea"
@@ -159,6 +165,7 @@ namespace ZenCart.Fishbowl.Map
             }
             return ret;
         }
+
         private static string MapCarrier(Config cfg, string shipping)
         {
             var dict = cfg.Store.OrderSettings.CarrierSearchNames;

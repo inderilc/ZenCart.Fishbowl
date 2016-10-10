@@ -64,7 +64,7 @@ namespace ZenCart.Fishbowl
             if (orders.Count > 0)
             {
                 List<ZCFBOrder> ofOrders = DataMappers.MapNewOrders(orders);
-
+                ofOrders = fb.MapCustomerID(ofOrders);
                 
                 Log("Creating and Validating Customer Names.");
                 ValidateCreateCustomers(ofOrders);
