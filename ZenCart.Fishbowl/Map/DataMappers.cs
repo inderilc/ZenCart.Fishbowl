@@ -20,38 +20,17 @@ namespace ZenCart.Fishbowl.Map
 
             salesOrder.CustomerName = ord.CustomerName; //done
             salesOrder.CustomerPO = o.orders_id.ToString(); //done
-            salesOrder.CustomerID = o.customers_id.ToString(); //done
-
+        
             salesOrder.TotalIncludesTax = true;
-            salesOrder.TotalIncludesTaxSpecified = true;
+            salesOrder.TotalIncludesTaxSpecified = false;
 
             salesOrder.Items = MapItems(ord.Order.Items).ToList();
 
             /*
-            public String orders_id { get; set; } --done
-            public String customers_id { get; set; }--done
-            public String customers_name { get; set; } --done
-            public String customers_company { get; set; } --ignore 
-            public String customers_street_address { get; set; }  --done
-            public String customers_suburb { get; set; } --done
-            public String customers_city { get; set; } --done
-            public String customers_postcode { get; set; } --done
-            public String customers_state { get; set; } --done
-            public String customers_country { get; set; } --done
-            public String customers_telephone { get; set; } --- done
+         
             public String customers_email_address { get; set; }
             public String customers_address_format_id { get; set; }
-
-            public String billing_name { get; set; }  --done
-            public String billing_company { get; set; } --ignore 
-            public String billing_street_address { get; set; }  --done
-            public String billing_suburb { get; set; }  --done
-            public String billing_city { get; set; }  --done
-            public String billing_postcode { get; set; }  --done
-            public String billing_state { get; set; } --done 
-            public String billing_country { get; set; } --done
-            public String billing_address_format_id { get; set; } --done
-
+            
             public String payment_method { get; set; }
             public String payment_module_code { get; set; }
 
@@ -153,7 +132,8 @@ namespace ZenCart.Fishbowl.Map
                 ItemType = "10",
                 Status = "10",
                 ProductPriceSpecified = true,
-                Taxable = true,
+                Taxable = false,
+                TaxRateSpecified = false,
                 UOMCode = "ea"
             };
         }
