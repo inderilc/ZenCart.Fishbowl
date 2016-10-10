@@ -182,7 +182,6 @@ namespace ZenCart.Fishbowl.Map
         private static string MapCarrier(Config cfg, string shipping)
         {
             var dict = cfg.Store.OrderSettings.CarrierSearchNames;
-
             foreach (var i in dict)
             {
                 bool found = shipping.ToUpper().Contains(i.Key.ToUpper()) && shipping.ToUpper().Equals(i.Value.ToUpper());
@@ -191,7 +190,6 @@ namespace ZenCart.Fishbowl.Map
                     return i.Value;
                 }
             }
-
             return cfg.Store.OrderSettings.DefaultCarrier;
         }
         public static Customer MapCustomer(Config cfg, ZCOrder o, String customerName, CountryAndState csa)
@@ -203,7 +201,7 @@ namespace ZenCart.Fishbowl.Map
 
             customer.TaxRate = null;
             customer.Name = customerName;
-
+          
             customer.CreditLimit = "0";
             customer.TaxExempt = false;
             customer.TaxExemptNumber = null;
