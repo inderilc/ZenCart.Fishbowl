@@ -23,7 +23,6 @@ namespace ZenCart.Fishbowl
 
         public ZenCartIntegration(Config cfg)
         {
-            //this.raven = new RavenClient("https://5225b6cdf6f14280988ace71f4183f64:64c21d1f557a45f4a506c6c15ddbab80@app.getsentry.com/67029");
             this.cfg = cfg;
         }
 
@@ -70,7 +69,7 @@ namespace ZenCart.Fishbowl
                 ValidateCreateCustomers(ofOrders);
                 Log("Validated Customers");
 
-                /*
+                /* Will need to turn-on this code, once the Create Product functionality is in place....
                 Log("Validating Items in Fishbowl.");
                 ValidateItems(ofOrders);
                 Log("Items Validated");

@@ -22,8 +22,8 @@ namespace ZenCart.Fishbowl.Controller
 
         public List<ZCOrder> GetOrders()
         {
-            //var rs = cd.Query<List<ZCOrder>>(String.Format(SQL.ZenCart.ZenCart_GetOrders));
-            var rs = cd.Query<List<ZCOrder>>(String.Format("select orders.* from orders left join fishbowl_imported on orders.orders_id = fishbowl_imported.orderid"));
+            var rs = cd.Query<List<ZCOrder>>(String.Format(SQL.ZenCart.ZenCart_GetOrders));
+            //var rs = cd.Query<List<ZCOrder>>(String.Format("select orders.* from orders left join fishbowl_imported on orders.orders_id = fishbowl_imported.orderid"));
 
             if (rs.HTTPCode == 200)
             {
