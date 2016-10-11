@@ -23,20 +23,20 @@ namespace ZFConsole
                 var ocf = new ZenCartIntegration(cfg);
                 ocf.OnLog += Ocf_OnLog;
                 ocf.Run();
-                ocf.EmailLog();
+                ocf.EmailLog(AppDomain.CurrentDomain.BaseDirectory + "\\log.txt");
                 Config.Save(cfg);
             }
             catch (Exception ex)
             {
                 ExceptionLog(ex);
             }
-
+            
             if (Debugger)
             {
                 Console.ReadLine();
                 Process.Start("log.txt");
             }
-
+          
         }
 
         private static void ExceptionLog(Exception exception)

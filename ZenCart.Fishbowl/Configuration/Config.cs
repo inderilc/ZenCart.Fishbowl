@@ -92,16 +92,15 @@ namespace ZenCart.Fishbowl.Configuration
 
     }
 
-
     public class EmailConfig
     {
-        public string Host { get; set; }
-        public string Port { get; set; }
-        public string Pass { get; set; }
-        public string User { get; set; }
-        public string SSL { get; set; }
-        public string MailFromName { get; set; }
-        public string MailFrom { get; set; }
+        public String Host { get; set; }
+        public int Port { get; set; }
+        public String Pass { get; set; }
+        public String User { get; set; }
+        public Boolean SSL { get; set; }
+        public String MailFromName { get; set; }
+        public String MailFrom { get; set; }
         public string LogEmail { get; set; }
     }
 }

@@ -7,6 +7,8 @@ using ZenCart.Fishbowl.Configuration;
 using ZenCart.Fishbowl.Controller;
 using ZenCart.Fishbowl.Models;
 using ZenCart.Fishbowl.Map;
+using System.Net.Mail;
+using System.Net;
 
 using System.IO;
 
@@ -38,10 +40,43 @@ namespace ZenCart.Fishbowl
 
             DownloadOrders();
         }
-        public void EmailLog()
+        public void EmailLog(String file)
         {
+            MailMessage m = new MailMessage();
+            String addresses = (cfg.Email.LogEmail).Replace(",", ";");
+            m.Subject = "ZenCart to Fishbowl Download Log : " + Path.GetFileName(file);
+            m.Body = "The order (#) was uploaded successfully to Fishbowl at " + DateTime.Now.ToString();
 
+            m.Attachments.Add(new Attachment(file));
 
+            m.To.Add(addresses);
+            SendEmail(cfg.Email, m);
+
+        }
+
+        private static Boolean SendEmail(EmailConfig cfg, MailMessage m)
+        {
+            try
+            {
+                SmtpClient smtp = GenSMTP(cfg);
+                m.From = new MailAddress(cfg.MailFrom, cfg.MailFromName);
+                smtp.Send(m);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText("smtplog.txt", ex.ToString());
+                return false;
+            }
+        }
+
+        private static SmtpClient GenSMTP(EmailConfig cfg)
+        {
+            SmtpClient smtp = new SmtpClient(cfg.Host, cfg.Port);
+            smtp.Credentials = new NetworkCredential(cfg.User, cfg.Pass);
+            smtp.EnableSsl = cfg.SSL;
+
+            return smtp;
         }
 
         private void InitConnections()
