@@ -44,8 +44,8 @@ namespace ZenCart.Fishbowl
         {
             MailMessage m = new MailMessage();
             String addresses = (cfg.Email.LogEmail).Replace(",", ";");
-            m.Subject = "ZenCart to Fishbowl Download Log : " + Path.GetFileName(file);
-            m.Body = "The order (#) was uploaded successfully to Fishbowl at " + DateTime.Now.ToString();
+            m.Subject = "ZenCart to Fishbowl Download Log attached.";
+            m.Body = "ZenCart to Fishbowl download log files are attached. The log file "+ Path.GetFileName(file)+" is attached";
 
             m.Attachments.Add(new Attachment(file));
 
