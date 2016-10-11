@@ -38,7 +38,11 @@ namespace ZenCart.Fishbowl
 
             DownloadOrders();
         }
+        public void EmailLog()
+        {
 
+
+        }
 
         private void InitConnections()
         {

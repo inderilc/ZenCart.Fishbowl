@@ -23,6 +23,7 @@ namespace ZFConsole
                 var ocf = new ZenCartIntegration(cfg);
                 ocf.OnLog += Ocf_OnLog;
                 ocf.Run();
+                ocf.EmailLog();
                 Config.Save(cfg);
             }
             catch (Exception ex)
