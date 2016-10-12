@@ -40,7 +40,7 @@ namespace ZenCart.Fishbowl.Map
 
             salesOrder.Items = MapItems(ord.Order.Items).ToList();
 
-            /* will need to go over the following fields
+            /*
          
             public String customers_email_address { get; set; }
             public String customers_address_format_id { get; set; }

@@ -1,0 +1,1 @@
+select products_model from products where products_model='{0}'

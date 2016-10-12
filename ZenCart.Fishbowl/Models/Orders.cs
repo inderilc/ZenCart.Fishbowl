@@ -106,5 +106,47 @@ namespace ZenCart.Fishbowl.Models
         public Countryconst Country { get; set; }
         public Stateconst State { get; set; }
     }
+    public class ProductDataClass
+    {
+        public String products_model { get; set; }
+    }
+    public class ProductDataFB
+    {
+        public int ID { get; set; }
+        public string ACCOUNTINGHASH { get; set; }
+        public string ACCOUNTINGID { get; set; }
+        public int    ACTIVEFLAG { get; set; }
+        public string ALERTNOTE { get; set; }
+        public DateTime DATECREATED { get; set; }
+        public DateTime DATELASTMODIFIED { get; set; }
+        public int DEFAULTSOITEMTYPE { get; set; }
+        public string DESCRIPTION { get; set; }
+        public string DETAILS { get; set; }
+        public int DISPLAYTYPEID { get; set; }
+        public int HEIGHT { get; set; }
+        public int INCOMEACCOUNTID { get; set; }
+        public int KITFLAG { get; set; }
+        public int KITGROUPEDFLAG { get; set; }
+        public double LEN { get; set; }
+        public string NUM { get; set; }
+        public int PARTID { get; set; }
+        public double PRICE { get; set; }
+        public int QBCLASSID { get; set; }
+        public int SELLABLEINOTHERUOMS { get; set; }
+        public int SHOWSOCOMBOFLAG  { get; set; }
+        public int SIZEUOMID { get; set; }
+        //public int SKU { get; set; }
+        public int TAXID { get; set; }
+        public int TAXABLEFLAG { get; set; }
+        public int UOMID { get; set; }
+        public string UPC { get; set; }
+        public string URL { get; set; }
+        public int USEPRICEFLAG { get; set; }
+        public double WEIGHT { get; set; }
+        public int WEIGHTUOMID { get; set; }
+        public double WIDTH { get; set; }
+        public bool isNotCreating { get; set; }
+
+    }
 
 }

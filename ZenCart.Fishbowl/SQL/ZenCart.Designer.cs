@@ -62,7 +62,7 @@ namespace ZenCart.Fishbowl.SQL {
         
         /// <summary>
         ///   Looks up a localized string similar to select * from orders_products
-        ///where orders_id = @ids.
+        ///where orders_id = &apos;{0}&apos;.
         /// </summary>
         internal static string ZenCart_GetOrder_Products {
             get {
@@ -78,6 +78,15 @@ namespace ZenCart.Fishbowl.SQL {
         internal static string ZenCart_GetOrders {
             get {
                 return ResourceManager.GetString("ZenCart_GetOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to select products.productsid from products where products_model=&apos;@mdl&apos;.
+        /// </summary>
+        internal static string ZenCart_ProductExist {
+            get {
+                return ResourceManager.GetString("ZenCart_ProductExist", resourceCulture);
             }
         }
         

@@ -113,7 +113,12 @@ namespace ZenCart.Fishbowl.Controller
             }
             return ret;
         }
+        public List<ProductDataFB> GetProductsInfo()
+        {
+            List<ProductDataFB> ret = new List<ProductDataFB>();
+              return db.Query<ProductDataFB>("select * from product").ToList();
 
+        }
         public bool CustomerExists(object customerName)
         {
             var text = db.Query<String>("select name from customer where name = @c", new { c = customerName }).SingleOrDefault();
@@ -151,7 +156,6 @@ namespace ZenCart.Fishbowl.Controller
             String so =
                 db.Query<String>("select first 1 num from so where customerpo = @cpo", new { cpo = customerPo })
                     .SingleOrDefault();
-
             return !(string.IsNullOrEmpty(so));
         }
 
@@ -159,10 +163,8 @@ namespace ZenCart.Fishbowl.Controller
         {
             if (api != null)
                 api.Dispose();
-
             if (db != null)
                 db.Dispose();
         }
     }
 }
-

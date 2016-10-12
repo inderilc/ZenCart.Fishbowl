@@ -31,6 +31,8 @@ namespace ZenCart.Fishbowl
 
         public void Run()
         {
+            char userInput;
+            char upper;
 
             Log("Starting Integration");
 
@@ -38,7 +40,33 @@ namespace ZenCart.Fishbowl
 
             Log("Ready");
 
-            DownloadOrders();
+            do
+            {
+                Console.Clear();
+                System.Console.WriteLine("1. ZenCart to Fishbowl Download");
+                System.Console.WriteLine("2. Create Products in ZenCart");
+                System.Console.WriteLine("0. Exit");
+                System.Console.WriteLine("Enter an option --->");
+                userInput = Convert.ToChar(Console.ReadLine());
+                upper = char.ToUpper(userInput);
+
+                if (upper == '1')
+                {
+                    DownloadOrders();
+                }
+                else if (upper == '2')
+                {
+                    CreateOrderZenCart();
+                }
+                else if (upper == '0')
+                {
+                    Console.WriteLine("Exiting service");
+                }
+                else
+                    Console.WriteLine("You entered an incorrect option, please select new option");
+            }
+            while (upper != '0');
+            
         }
         public void EmailLog(String file)
         {
@@ -98,6 +126,7 @@ namespace ZenCart.Fishbowl
         {
             Log("Downloading Orders");
             List<ZCOrder> orders = zc.GetOrders();
+            CreateOrderZenCart();
             Log("Orders Downloaded: " + orders.Count);
             if (orders.Count > 0)
             {
@@ -125,6 +154,53 @@ namespace ZenCart.Fishbowl
                 Log("Downloading Orders Finished");
             }
 
+        }
+        public void CreateOrderZenCart()
+        {
+            Log("Downloading Products information from Fishbowl.");
+            List<ProductDataFB> fbProducts = fb.GetProductsInfo();
+            Log("Products information downloaded from Fishbowl. Total Fishbowl Products:" + fbProducts.Count());
+            CheckNCreateZenProducts(fbProducts);
+        }
+        public void CheckNCreateZenProducts(List<ProductDataFB> fbProducts)
+        {
+            int i = 0;
+            Log("Downloading Products information from ZenCart.");
+            List<ProductDataClass> zcProducts = zc.GetAllZenProductsInfo();
+            Log("Products information downloaded from ZenCart. Total ZenCart Products:" + zcProducts.Count());
+            Log("Checking to see if any products need to be created");
+            foreach (var fbProduct in fbProducts)
+            {
+                foreach (var zcProduct in zcProducts)
+                {
+                    if (fbProduct.NUM == zcProduct.products_model)
+                    {
+                        fbProduct.isNotCreating = true;
+                        i++;
+                    } 
+                }
+            }
+
+            Log("Total Products need to be created " + (fbProducts.Count - i) + ".");
+
+            foreach (var fbProduct in fbProducts)
+            {
+                if (!fbProduct.isNotCreating)
+                {
+                    string addOn = "";
+                    Log("Product Model "+fbProduct.NUM+" needs to be created");
+                    bool extd = zc.CreateProduct(fbProduct);
+                    if (extd)
+                    {
+                        addOn = " is created successfully";
+                    }
+                    else
+                    {
+                        addOn = " has failed to be created";
+                    }
+                    Log("Product " + fbProduct.DESCRIPTION + addOn);
+                }
+            }
         }
 
         private List<String> CreateSalesOrders(List<ZCFBOrder> ofOrders)
@@ -166,7 +242,6 @@ namespace ZenCart.Fishbowl
     
         private void ValidateItems(List<ZCFBOrder> ofOrders)
         {
-            // Clean order models.
             ofOrders.ForEach(x =>
             {
                 x.Order.Items.ForEach(y => y.products_id = y.products_id.Trim());
@@ -223,8 +298,6 @@ namespace ZenCart.Fishbowl
             var customer = DataMappers.MapCustomer(cfg, Order, customerName, cas);
             fb.CreateCustomer(customer);
         }
-
-
 
         public void Log(String msg)
         {
