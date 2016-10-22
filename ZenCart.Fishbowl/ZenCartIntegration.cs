@@ -9,7 +9,8 @@ using ZenCart.Fishbowl.Models;
 using ZenCart.Fishbowl.Map;
 using System.Net.Mail;
 using System.Net;
-
+using CsvHelper.Configuration;
+using CsvHelper;
 using System.IO;
 
 namespace ZenCart.Fishbowl
@@ -43,9 +44,11 @@ namespace ZenCart.Fishbowl
             do
             {
                 Console.Clear();
+                System.Console.WriteLine("---------------------------------------------------------");
                 System.Console.WriteLine("1. ZenCart to Fishbowl Download");
                 System.Console.WriteLine("2. Create Products in ZenCart");
                 System.Console.WriteLine("0. Exit");
+                System.Console.WriteLine("---------------------------------------------------------");
                 System.Console.WriteLine("Enter an option --->");
                 userInput = Convert.ToChar(Console.ReadLine());
                 upper = char.ToUpper(userInput);
@@ -180,27 +183,35 @@ namespace ZenCart.Fishbowl
                     } 
                 }
             }
-
-            Log("Total Products need to be created " + (fbProducts.Count - i) + ".");
-
+            List<ProductDataFB> UploadList = new List<ProductDataFB>();
             foreach (var fbProduct in fbProducts)
             {
                 if (!fbProduct.isNotCreating)
                 {
-                    string addOn = "";
-                    Log("Product Model "+fbProduct.NUM+" needs to be created");
-                    bool extd = zc.CreateProduct(fbProduct);
-                    if (extd)
-                    {
-                        addOn = " is created successfully";
-                    }
-                    else
-                    {
-                        addOn = " has failed to be created";
-                    }
-                    Log("Product " + fbProduct.DESCRIPTION + addOn);
+                    UploadList.Add(fbProduct);
                 }
             }
+            Log("Total Products need to be created " + (UploadList.Count) + ".");
+
+            String CSV = GenerateProductsCSV(UploadList);
+
+            bool created = zc.CreateProducts(CSV);
+            if (created)
+            {
+                Log("Products created succesfully");
+            }
+        }
+
+        private String GenerateProductsCSV(List<ProductDataFB> products)
+        {
+            StringWriter sw = new StringWriter();
+            var csv = new CsvWriter(sw);
+            csv.Configuration.RegisterClassMap<ProductDataFBMap>();
+            csv.Configuration.HasHeaderRecord = true;
+            csv.Configuration.QuoteAllFields = false;
+            csv.WriteHeader(typeof(ProductDataFB));
+            csv.WriteRecords(products);
+            return sw.ToString();
         }
 
         private List<String> CreateSalesOrders(List<ZCFBOrder> ofOrders)

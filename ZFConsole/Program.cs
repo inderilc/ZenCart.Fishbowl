@@ -30,12 +30,13 @@ namespace ZFConsole
             {
                 ExceptionLog(ex);
             }
-            
+            /*
             if (Debugger)
             {
                 Console.ReadLine();
                 Process.Start("log.txt");
             }
+            */
           
         }
 

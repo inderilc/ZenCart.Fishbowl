@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CsvHelper;
+using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
 
 namespace ZenCart.Fishbowl.Models
 {
@@ -110,6 +113,20 @@ namespace ZenCart.Fishbowl.Models
     {
         public String products_model { get; set; }
     }
+
+
+    public class ProductDataFBMap : CsvClassMap<ProductDataFB>
+    {
+        public ProductDataFBMap()
+        {
+            Map(m => m.NUM).Name("sku");
+            Map(m => m.DESCRIPTION).Name("name");
+            Map(m => m.DESCRIPTION).Name("description");
+            Map(m => m.WEIGHT).Name("weight");
+            Map(m => m.PRICE).Name("price");
+        }
+    }
+
     public class ProductDataFB
     {
         public int ID { get; set; }
