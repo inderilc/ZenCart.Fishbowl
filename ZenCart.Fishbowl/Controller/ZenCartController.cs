@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using CloudDataClient;
 using ZenCart.Fishbowl.Configuration;
 using ZenCart.Fishbowl.Models;
+using RestSharp;
+using System.Net;
 
 namespace ZenCart.Fishbowl.Controller
 {
@@ -61,21 +63,34 @@ namespace ZenCart.Fishbowl.Controller
         {
             return cd.Query<List<ProductDataClass>>("select products_model from products").Data;
         }
+
         public bool CreateProducts(String ProductsCSV)
         {
-            try
-            {
 
+                string urlAddress = "http://orders.massbevalliance.com/fishbowl-product-import.php";
+                var client = new RestClient(urlAddress);
 
-
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            return true;
-
-        }
+                var request = new RestRequest(Method.POST);
+                request.AddParameter("application/php; charset=utf-8", ProductsCSV, ParameterType.RequestBody);
+                try
+                {
+      
+                      var response = client.Execute(request);
+                      if (response.StatusCode == HttpStatusCode.OK)
+                         {
+                            return true;
+                         }
+                      else
+                        {
+                            return false;
+                        }
+                 }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+           
+    }
         public bool UpdateZC2FBDownloaded(Int32 orderid, String soNum)
         {
             var ret = cd.Execute(String.Format(SQL.ZenCart.ZenCart_ZC2FBDownloaded, orderid, soNum.ToString()));
