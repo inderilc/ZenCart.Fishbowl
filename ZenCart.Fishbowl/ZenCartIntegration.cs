@@ -200,6 +200,10 @@ namespace ZenCart.Fishbowl
             {
                 Log("Products created succesfully");
             }
+            else
+            {
+                Log("Products creation failed");
+            }
         }
 
         private String GenerateProductsCSV(List<ProductDataFB> products)

@@ -121,7 +121,7 @@ namespace ZenCart.Fishbowl.Models
         {
             Map(m => m.NUM).Name("sku");
             Map(m => m.DESCRIPTION).Name("name");
-            Map(m => m.DESCRIPTION).Name("description");
+            Map(m => m.DETAILS).Name("description");
             Map(m => m.WEIGHT).Name("weight");
             Map(m => m.PRICE).Name("price");
         }
