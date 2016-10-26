@@ -124,6 +124,7 @@ namespace ZenCart.Fishbowl.Models
             Map(m => m.DETAILS).Name("description");
             Map(m => m.WEIGHT).Name("weight");
             Map(m => m.PRICE).Name("price");
+            Map(m => m.QTY).Name("qty");
         }
     }
 
@@ -163,6 +164,7 @@ namespace ZenCart.Fishbowl.Models
         public int WEIGHTUOMID { get; set; }
         public double WIDTH { get; set; }
         public bool isNotCreating { get; set; }
+        public double QTY { get; set; }
 
     }
 

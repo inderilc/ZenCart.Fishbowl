@@ -82,6 +82,7 @@ namespace ZenCart.Fishbowl.Configuration
     {
         public string ApiKey { get; set; }
         public string StoreUrl { get; set; }
+        public string UploadScriptURL { get; set; }
         public OrderSettings OrderSettings { get; set; }
     }
 

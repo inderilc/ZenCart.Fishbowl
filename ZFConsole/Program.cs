@@ -22,7 +22,7 @@ namespace ZFConsole
                 var cfg = Config.Load();
                 var ocf = new ZenCartIntegration(cfg);
                 ocf.OnLog += Ocf_OnLog;
-                ocf.Run();
+                ocf.Run(args);
                 ocf.EmailLog(AppDomain.CurrentDomain.BaseDirectory + "\\log.txt");
                 Config.Save(cfg);
             }

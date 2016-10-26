@@ -116,7 +116,8 @@ namespace ZenCart.Fishbowl.Controller
         public List<ProductDataFB> GetProductsInfo()
         {
             List<ProductDataFB> ret = new List<ProductDataFB>();
-              return db.Query<ProductDataFB>("select * from product").ToList();
+            //return db.Query<ProductDataFB>("select * from product").ToList();
+            return db.Query<ProductDataFB>("select p.NUM, p.DESCRIPTION,p.DETAILS, p.WEIGHT, p.PRICE, q.QTY from product p join QTYONHAND q on p.partid = q.PARTID; ").ToList();
 
         }
         public bool CustomerExists(object customerName)

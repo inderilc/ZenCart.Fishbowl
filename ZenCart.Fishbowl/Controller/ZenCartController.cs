@@ -10,6 +10,7 @@ using ZenCart.Fishbowl.Models;
 using RestSharp;
 using System.Net;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ZenCart.Fishbowl.Controller
 {
@@ -65,11 +66,11 @@ namespace ZenCart.Fishbowl.Controller
             return cd.Query<List<ProductDataClass>>("select products_model from products").Data;
         }
 
-        public bool CreateProducts(String ProductsCSV)
+        public String CreateProducts(String ProductsCSV)
         {
             String uploadFileName = AppDomain.CurrentDomain.BaseDirectory + "uploadFile.csv";
             File.WriteAllText(uploadFileName, ProductsCSV);
-            string urlAddress = "http://orders.massbevalliance.com/fishbowl-product-import.php";
+            string urlAddress = cfg.Store.UploadScriptURL;
             var client = new RestClient(urlAddress);
 
             var request = new RestRequest(Method.POST);
@@ -79,16 +80,17 @@ namespace ZenCart.Fishbowl.Controller
                 var response = client.Execute(request);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    return true;
+                    return Regex.Match(response.Content, "(Successfully)(.*?)(products.)").Value;
                 }
                 else
                 {
-                    return false;
+                    return "Importing Order Failed";
                 }
             }
             catch (Exception ex)
             {
-                return false;
+
+                return "Importing Order Failed at server. Message: "+ex.Message;
             }
 
 

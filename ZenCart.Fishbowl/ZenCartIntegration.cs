@@ -30,46 +30,31 @@ namespace ZenCart.Fishbowl
         }
 
 
-        public void Run()
+        public void Run(string []args)
         {
-            char userInput;
-            char upper;
-
-            Log("Starting Integration");
-
-            InitConnections();
-
-            Log("Ready");
-
-            do
+            if (args.Length > 0 && args.Length <= 2)
             {
-                Console.Clear();
-                System.Console.WriteLine("---------------------------------------------------------");
-                System.Console.WriteLine("1. ZenCart to Fishbowl Download");
-                System.Console.WriteLine("2. Create Products in ZenCart");
-                System.Console.WriteLine("0. Exit");
-                System.Console.WriteLine("---------------------------------------------------------");
-                System.Console.WriteLine("Enter an option --->");
-                userInput = Convert.ToChar(Console.ReadLine());
-                upper = char.ToUpper(userInput);
+                Log("Starting Integration");
+                InitConnections();
+                Log("Ready");
 
-                if (upper == '1')
+                for (int i = 0; i < args.Length; i++)
                 {
-                    DownloadOrders();
+                    if (args[i].Equals("orders"))
+                    {
+                        DownloadOrders();
+                    }
+                    else if (args[i].Equals("products"))
+                    {
+                        CreateOrderZenCart();
+                    }
+
                 }
-                else if (upper == '2')
-                {
-                    CreateOrderZenCart();
-                }
-                else if (upper == '0')
-                {
-                    Console.WriteLine("Exiting service");
-                }
-                else
-                    Console.WriteLine("You entered an incorrect option, please select new option");
             }
-            while (upper != '0');
-            
+            else
+            {
+                Log("Failed. Insufficient arguments.");
+            }
         }
         public void EmailLog(String file)
         {
@@ -193,16 +178,12 @@ namespace ZenCart.Fishbowl
             }
             Log("Total Products need to be created " + (UploadList.Count) + ".");
 
-            String CSV = GenerateProductsCSV(UploadList);
+            if (UploadList.Count > 0)
+            {
 
-            bool created = zc.CreateProducts(CSV);
-            if (created)
-            {
-                Log("Products created succesfully");
-            }
-            else
-            {
-                Log("Products creation failed");
+                String CSV = GenerateProductsCSV(UploadList);
+                String created = zc.CreateProducts(CSV);
+                Log(created);
             }
         }
 
